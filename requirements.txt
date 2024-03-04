@@ -6,6 +6,10 @@ plotly
 seaborn
 scipy
 scikit-learn
+lightgbm
+gdown
+catboost
+category_Encoders
 imblearn
 xgboost
 catboost
