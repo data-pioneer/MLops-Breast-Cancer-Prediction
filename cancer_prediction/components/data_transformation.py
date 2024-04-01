@@ -129,8 +129,10 @@ class DataTransformation:
                 train_df["clust"]=(train_df.metastatic_cancer_diagnosis_code.str.len()==4).astype("int")
                 train_df["is_female"] = train_df.breast_cancer_diagnosis_desc.str.contains("female").astype("int")
 
-                print(train_df.columns)
+              
 
+                train_df = test_df.drop(columns=["DiagPeriodL90D"], axis=1)
+                print(train_df.columns)
                 input_feature_train_arr = preprocessor.fit_transform(train_df)
 
                 logging.info(
