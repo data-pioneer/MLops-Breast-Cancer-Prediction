@@ -53,21 +53,28 @@ class DataTransformation:
             logging.info("Got numerical cols from schema config")
 
             label_transformer = LabelEncoder()
-            oh_transformer = OneHotEncoder()
+            #oh_transformer = OneHotEncoder(sparse=False)
            
 
             logging.info("Initialized  OneHotEncoder, LabelEncoder")
 
-            oh_columns = self._schema_config['oh_columns']
+            #oh_columns = self._schema_config['oh_columns']
             label_columns = self._schema_config['label_columns']
                 
             preprocessor = ColumnTransformer(
-                [
-                    ("OneHotEncoder", oh_transformer, oh_columns),
-                    ("LabelEncoder", label_transformer, label_columns)
+               transformers=
+               [
+                 ("LabelEncoder",  label_transformer, label_columns)
+                 #("OneHotEncoder", oh_transformer, oh_columns)
                 ]
             )
 
+            # preprocessor = ColumnTransformer(
+            #     [
+            #         ("OneHotEncoder", oh_transformer, oh_columns),
+            #         ("LabelEncoder", label_transformer, label_columns)
+            #     ]
+            # )
             logging.info("Created preprocessor object from ColumnTransformer")
 
             logging.info(
@@ -133,28 +140,45 @@ class DataTransformation:
 
                 train_df = test_df.drop(columns=["DiagPeriodL90D"], axis=1)
                 print(train_df.columns)
-                input_feature_train_arr = preprocessor.fit_transform(train_df)
+
+                # Create a dictionary with the data
+                # data = {
+                #     'Country': ['USA', 'Canada', 'UK', 'France', 'Germany'],
+                #     'City': ['New York', 'Toronto', 'London', 'Paris', 'Berlin'],
+                #     'Gender': ['Male', 'Female', 'Male', 'Female', 'Male']
+                # }
+
+                # # Create a DataFrame from the dictionary
+                # df = pd.DataFrame(data)
+
+                # # Display the DataFrame
+                # print(df)
+                
+                #X = train_df['patient_race','Region','payer_type','breast_cancer_diagnosis_desc','Division','patient_state','metastatic_cancer_diagnosis_code'] # Select relevant columns
+
+
+               # input_feature_train_arr = preprocessor.fit_transform(train_df)
 
                 logging.info(
                     "Used the preprocessor object to fit transform the train features"
                 )
 
-                input_feature_test_arr = preprocessor.transform(test_df)
+                #input_feature_test_arr = preprocessor.transform(test_df)
 
                 logging.info("Used the preprocessor object to transform the test features")
             
 
                 train_arr = np.c_[
-                    input_feature_train_arr, np.array(input_feature_train_arr)
+                    train_df, np.array(train_df)
                 ]
 
                 test_arr = np.c_[
-                    input_feature_test_arr, np.array(input_feature_test_arr)
+                    test_df, np.array(test_df)
                 ]
 
                 save_object(self.data_transformation_config.transformed_object_file_path, preprocessor)
-                save_numpy_array_data(self.data_transformation_config.transformed_train_file_path, array=train_arr)
-                save_numpy_array_data(self.data_transformation_config.transformed_test_file_path, array=test_arr)
+                save_numpy_array_data(self.data_transformation_config.transformed_train_file_path, array=train_df)
+                save_numpy_array_data(self.data_transformation_config.transformed_test_file_path, array=test_df)
 
                 logging.info("Saved the preprocessor object")
 

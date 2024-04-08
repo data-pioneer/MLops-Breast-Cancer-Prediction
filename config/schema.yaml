@@ -133,7 +133,6 @@ drop_columns:
   - PM25
 
 # for data transformation
-
 label_columns:
 - patient_race
 - payer_type
@@ -151,3 +150,5 @@ oh_columns:
   - Division
   - patient_state
   - metastatic_cancer_diagnosis_code
+
+

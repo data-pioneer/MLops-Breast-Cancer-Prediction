@@ -4,7 +4,7 @@ from cancer_prediction.logger import logging
 
 from cancer_prediction.components.data_ingestion import DataIngestion
 from cancer_prediction.components.data_transformation import DataTransformation
-# from cancer_prediction.components.model_trainer import ModelTrainer
+from cancer_prediction.components.model_trainer import ModelTrainer
 # from cancer_prediction.components.model_evaluation import ModelEvaluation
 # from cancer_prediction.components.model_pusher import ModelPusher
 
@@ -27,7 +27,7 @@ class TrainPipeline:
     def __init__(self):
         self.data_ingestion_config = DataIngestionConfig()
         self.data_transformation_config = DataTransformationConfig()
-        # self.model_trainer_config = ModelTrainerConfig()
+        self.model_trainer_config = ModelTrainerConfig()
         # self.model_evaluation_config = ModelEvaluationConfig()
         # self.model_pusher_config = ModelPusherConfig()
 
@@ -125,9 +125,9 @@ class TrainPipeline:
         This method of TrainPipeline class is responsible for running complete pipeline
         """
         try:
-            data_ingestion_artifact = self.start_data_ingestion()
-            data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact)
-            # model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+             data_ingestion_artifact = self.start_data_ingestion()
+             data_transformation_artifact = self.start_data_transformation(data_ingestion_artifact=data_ingestion_artifact)
+             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
             # model_evaluation_artifact = self.start_model_evaluation(data_ingestion_artifact=data_ingestion_artifact,
             #                                                         model_trainer_artifact=model_trainer_artifact)
             
@@ -137,6 +137,6 @@ class TrainPipeline:
             # model_pusher_artifact = self.start_model_pusher(model_evaluation_artifact=model_evaluation_artifact)
 
 
-        
+       
         except Exception as e:
             raise CancerPredictionException(e, sys)
